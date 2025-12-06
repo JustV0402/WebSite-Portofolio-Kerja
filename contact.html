@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact - JustV</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+        /* --- 1. VARIABEL & RESET --- */
+        :root {
+            --bg-color: #191919;
+            --second-bg-color: #222222;
+            --text-color: #ffffff;
+            --main-color: #e3651d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            font-size: 62.5%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- 2. HEADER (Fixed Top) --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 2rem 9%;
+            background: rgba(25, 25, 25, 0.95); /* Sedikit transparan */
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .logo:hover { color: var(--main-color); transform: scale(1.1); }
+
+        nav a {
+            font-size: 1.7rem;
+            color: var(--text-color);
+            margin-left: 4rem;
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        nav a:hover, nav a.active { color: var(--main-color); }
+
+        nav a.active::after {
+            content: ''; position: absolute; left: 0; bottom: -6px;
+            width: 100%; height: 3px; background: var(--main-color); border-radius: 5px;
+        }
+
+        #menu-icon {
+            font-size: 3.6rem;
+            color: var(--text-color);
+            display: none;
+            cursor: pointer;
+        }
+
+        /* --- 3. CONTACT SECTION (CENTERED FIX) --- */
+        section {
+            /* Pastikan section mengambil sisa tinggi layar agar vertical center bekerja */
+            min-height: 100vh;
+            padding: 10rem 2rem; /* Padding kiri-kanan dikurangi agar aman di layar kecil */
+            
+            display: flex; 
+            justify-content: center; /* Center Horizontal */
+            align-items: center;     /* Center Vertical */
+        }
+
+        .contact-content {
+            /* Width menggunakan fungsi min() agar responsif total */
+            width: min(90%, 800px); 
+            
+            background: var(--second-bg-color);
+            padding: 5rem 4rem;
+            border-radius: 2rem;
+            box-shadow: 0 0 40px rgba(0,0,0,0.6);
+            border: 1px solid #333;
+            text-align: center;
+            position: relative; /* Memastikan z-index benar */
+        }
+
+        .contact-content h2 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .contact-content h2 span { color: var(--main-color); }
+
+        /* Style Statement - Teks Rata Kiri dengan Border */
+        .professional-statement {
+            margin-top: 3rem;
+            font-size: 1.6rem;
+            color: #ddd;
+            line-height: 1.8;
+            font-weight: 300;
+            text-align: left; /* Teks paragraf rata kiri */
+            border-left: 4px solid var(--main-color);
+            padding-left: 2rem;
+            background: rgba(255, 255, 255, 0.02); /* Sedikit background biar pop */
+            border-radius: 0 1rem 1rem 0;
+            padding: 2rem;
+        }
+
+        .professional-statement strong {
+            color: white;
+            font-weight: 600;
+        }
+
+        /* --- 4. CONTACT CARDS (GRID) --- */
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 4rem;
+        }
+
+        .contact-card {
+            background: var(--bg-color);
+            padding: 2.5rem 2rem;
+            border-radius: 1.5rem;
+            border: 1px solid #444;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 160px; /* Ukuran kartu tetap */
+        }
+
+        .contact-card:hover {
+            border-color: var(--main-color);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(227, 101, 29, 0.2);
+        }
+
+        .contact-card i {
+            font-size: 3.5rem;
+            color: var(--main-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-card h3 {
+            font-size: 1.6rem;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card span {
+            font-size: 1.2rem;
+            color: #888;
+        }
+
+        /* Tombol WA */
+        .btn-wa {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 3rem;
+            background: var(--main-color);
+            border-radius: 5rem;
+            font-size: 1.6rem;
+            color: white;
+            font-weight: 600;
+            margin-top: 4rem;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(227, 101, 29, 0.3);
+        }
+
+        .btn-wa:hover {
+            background: transparent;
+            border: 2px solid var(--main-color);
+            color: var(--main-color);
+            transform: scale(1.05);
+        }
+
+        /* --- 5. RESPONSIVE --- */
+        @media (max-width: 768px) {
+            header { padding: 2rem 4%; }
+            .contact-content { padding: 3rem 2rem; }
+            .contact-content h2 { font-size: 3rem; }
+            .professional-statement { font-size: 1.4rem; padding: 1.5rem; }
+            
+            #menu-icon { display: block; }
+            nav {
+                position: absolute; top: 100%; left: 0; width: 100%;
+                padding: 1rem 3%; background: var(--bg-color);
+                border-top: 1px solid #333; display: none; flex-direction: column;
+            }
+            nav.active { display: flex; }
+            nav a { display: block; margin: 1.5rem 0; font-size: 1.8rem; margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">Vito Pratama</a>
+        <div id="menu-icon" class="fas fa-bars"></div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="Galeri Karya.html">Galeri Karya</a>
+            <a href="Tentang Saya.html">Tentang Saya</a>
+            <a href="contact.html" class="active">Contact</a>
+        </nav>
+    </header>
+
+    <section>
+        <div class="contact-content">
+            <h2>Let's <span>Work Together</span></h2>
+            
+            <div class="professional-statement">
+                <p>
+                    "Saya memiliki dedikasi penuh untuk berkontribusi secara profesional. Dengan bekal pengalaman di bidang <strong>Engineering</strong>, <strong>Audit Sistem Informasi</strong>, dan <strong>Web Development</strong>, saya siap menjadi bagian dari tim Anda untuk menciptakan solusi teknologi yang efisien dan presisi. Saya terbuka untuk peluang kerja <em>Full-time</em> maupun kolaborasi proyek."
+                </p>
+            </div>
+
+            <div class="contact-links">
+                
+                <a href="https://github.com/JustV0402" target="_blank" class="contact-card">
+                    <i class="fa-brands fa-github"></i>
+                    <h3>GitHub</h3>
+                    <span>Lihat Kode</span>
+                </a>
+
+                <a href="https://www.instagram.com/just_vito2" target="_blank" class="contact-card">
+                    <i class="fa-brands fa-instagram"></i>
+                    <h3>Instagram</h3>
+                    <span>Daily Update</span>
+                </a>
+            </div>
+
+            <a href="https://wa.me/6285800607454?text=Halo%20Vito,%20saya%20tertarik%20untuk%20bekerja%20sama." target="_blank" class="btn-wa">
+                <i class="fa-brands fa-whatsapp"></i> Chat via WhatsApp
+            </a>
+
+        </div>
+    </section>
+
+    <script>
+        const menuIcon = document.getElementById('menu-icon');
+        const navbar = document.querySelector('nav');
+
+        menuIcon.onclick = () => {
+            menuIcon.classList.toggle('fa-xmark');
+            navbar.classList.toggle('active');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Karya - Portfolio Vito Pratama</title>
+    <meta name="description" content="Kumpulan proyek audit sistem, pengalaman engineering, dan organisasi Muhammad Vito Pratama.">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+        :root {
+            --accent-color: #e3651d; /* Oranye sesuai tema About Me */
+            --dark-bg: #191919;      
+            --card-bg: #222222;      
+            --darker-bg: #161616;    
+            --text-color: #ffffff;
+            --secondary-text: #cccccc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+            outline: none;
+            font-family: "Poppins", sans-serif;
+        }
+
+        html {
+            font-size: 62.5%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* ================= HEADER & NAVIGASI ================= */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem 9%;
+            background-color: rgba(25, 25, 25, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Styling Navigasi Desktop */
+        nav a {
+            font-size: 1.6rem;
+            color: var(--text-color);
+            margin-left: 3rem;
+            font-weight: 500;
+            transition: 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--accent-color);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-color);
+        }
+
+        .menu-icon { 
+            font-size: 3rem;
+            color: var(--text-color); 
+            cursor: pointer;
+            display: none;
+        }
+
+        /* ================= BAGIAN GALERI ================= */
+        section {
+            min-height: 100vh;
+            padding: 12rem 9% 5rem;
+        }
+
+        .gallery-heading {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--text-color);
+            font-weight: 700;
+        }
+
+        .gallery-heading span {
+            color: var(--accent-color);
+        }
+
+        /* FILTER CONTROLS */
+        .filter-controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .filter-button {
+            padding: 1rem 2.5rem;
+            background-color: transparent;
+            border-radius: 5rem;
+            font-size: 1.4rem;
+            color: var(--secondary-text);
+            font-weight: 500;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .filter-button:hover, .filter-button.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(227, 101, 29, 0.3);
+        }
+
+        /* Grid Galeri */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr)); 
+            gap: 3rem;
+        }
+
+        /* Card Project */
+        .project {
+            background-color: var(--card-bg); 
+            border-radius: 1.5rem; 
+            border: 1px solid #333;
+            overflow: hidden;
+            transition: 0.4s ease;
+            position: relative;
+            /* Untuk animasi filter */
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .project:hover {
+            transform: translateY(-10px); 
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Image Wrapper untuk Overlay */
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 22rem;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s ease;
+        }
+
+        /* Overlay Icon Mata (View) */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .overlay i {
+            color: white;
+            font-size: 3rem;
+            background: var(--accent-color);
+            padding: 1.5rem;
+            border-radius: 50%;
+        }
+
+        .project:hover .image-wrapper img {
+            transform: scale(1.1);
+        }
+
+        .project:hover .overlay {
+            opacity: 1;
+        }
+
+        .project-info {
+            padding: 2.5rem;
+        }
+
+        .project-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .project-info p {
+            font-size: 1.4rem;
+            color: var(--secondary-text);
+            line-height: 1.6;
+        }
+
+        /* ================= LIGHTBOX (MODAL) ================= */
+        .lightbox {
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .lightbox.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 1rem;
+            box-shadow: 0 0 30px rgba(227, 101, 29, 0.2);
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 3rem;
+            right: 4rem;
+            font-size: 4rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .lightbox-close:hover {
+            color: var(--accent-color);
+            transform: rotate(90deg);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ================= FOOTER ================= */
+        .footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 9%;
+            background: var(--darker-bg); 
+            border-top: 1px solid #333;
+            margin-top: auto;
+        }
+
+        .footer p {
+            font-size: 1.4rem;
+            color: #666;
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 995px) { 
+            header { padding: 2rem 4%; }
+            section { padding: 12rem 4% 5rem; }
+
+            .menu-icon { display: block; }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 2rem;
+                background-color: var(--dark-bg);
+                border-top: 1px solid #333;
+                display: none;
+                flex-direction: column;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.5);
+            }
+
+            nav.active { display: flex; }
+
+            nav a {
+                display: block;
+                margin: 1.5rem 0;
+                font-size: 1.8rem;
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            html { font-size: 55%; }
+            .gallery { grid-template-columns: 1fr; }
+            .lightbox-close { top: 2rem; right: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="lightbox" id="lightbox">
+        <i class="fas fa-times lightbox-close" id="lightbox-close"></i>
+        <img src="" alt="Zoom Image" id="lightbox-img">
+    </div>
+
+    <header>
+        <a href="index.html" class="logo">Vito Pratama</a>
+        <div class="menu-icon" id="menu-icon"><i class="fas fa-bars"></i></div>
+        <nav id="navbar">
+            <a href="index.html">Home</a>
+            <a href="Galeri Karya.html" class="active">Galeri Karya</a> 
+            <a href="Tentang Saya.html">Tentang Saya</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <section>
+        <h1 class="gallery-heading">Galeri & <span>Portofolio</span></h1>
+
+        <div class="filter-controls">
+            <button class="filter-button active" data-filter="all">Semua</button>
+            <button class="filter-button" data-filter="organisasi">Organisasi</button>
+            <button class="filter-button" data-filter="sertifikat">Sertifikasi</button>
+            <button class="filter-button" data-filter="kerja">Pengalaman Kerja</button>
+        </div>
+
+        <div class="gallery">
+            
+            <div class="project" data-category="organisasi">
+                <div class="image-wrapper">
+                    <img src="/image/mubes02.jpg" alt="Presidium MUBES">
+                    <div class="overlay"><i class="fas fa-eye"></i></div>
+                </div>
+                <div class="project-info">
+                    <h3>Presidium MUBES HMSI</h3>
+                    <p>Memimpin jalannya sidang Musyawarah Besar dan menjadi pengambil keputusan tertinggi dalam forum.</p>
+                </div>
+            </div>
+
+            <div class="project" data-category="sertifikat">
+                <div class="image-wrapper">
+                    <img src="/image/RapidMiner.jpg" alt="Sertifikat Big Data">
+                    <div class="overlay"><i class="fas fa-eye"></i></div>
+                </div>
+                <div class="project-info">
+                    <h3>Professional Big Data Analyst</h3>
+                    <p>Sertifikasi kompetensi RapidMiner untuk analisis data dan pemodelan prediktif.</p>
+                </div>
+            </div>
+
+            <div class="project" data-category="organisasi">
+                <div class="image-wrapper">
+                    <img src="/image/impact.png" alt="HMSI IMPACT - Kegiatan Pengabdian Masyarakat">
+                    <div class="overlay"><i class="fas fa-eye"></i></div>
+                </div>
+                <div class="project-info">
+                    <h3>HMSI IMPACT – Ketua Divisi Acara</h3>
+                    <p>Berperan sebagai koordinator utama dalam penyusunan, perencanaan, dan pengelolaan rangkaian program HMSI IMPACT, sebuah inisiatif pengabdian masyarakat berfokus pada transformasi digital menuju Smart Village. Tugas mencakup pengelolaan alur acara, koordinasi pemateri, pengaturan teknis kegiatan literasi digital, serta memastikan setiap kegiatan berjalan efektif dan memberi dampak nyata bagi masyarakat Dusun Dukuh Sinduharjo.</p>
+                </div>
+            </div>
+
+                        <div class="project" data-category="organisasi">
+                <div class="image-wrapper">
+                    <img src="/image/tech.jpg" alt="Event FusionTech HMSI x HIMTEK">
+                    <div class="overlay"><i class="fas fa-eye"></i></div>
+                </div>
+                <div class="project-info">
+                    <h3>FusionTech HMSI x HIMTEK – Ketua Divisi Acara</h3>
+                    <p>Memimpin perencanaan dan pengelolaan seluruh rangkaian kegiatan FusionTech, sebuah kolaborasi antara HMSI dan HIMTEK yang berfokus pada inovasi teknologi dan pengembangan solusi digital. Bertanggung jawab atas koordinasi rundown, pengaturan teknis, manajemen tim acara, serta memastikan seluruh aktivitas berjalan terstruktur dan berdampak bagi peserta.</p>
+                </div>
+            </div>
+
+                    <div class="project" data-category="sertifikat">
+            <div class="image-wrapper">
+                <img src="/image/ldk.jpg" alt="Sertifikat LDK HMSI">
+                <div class="overlay"><i class="fas fa-eye"></i></div>
+            </div>
+            <div class="project-info">
+                <h3>Latihan Dasar Kepemimpinan (LDK) – Peserta</h3>
+                <p>Mengikuti kegiatan Latihan Dasar Kepemimpinan (LDK) HMSI dengan tema Unlocking Leadership Potential: From Vision To Impact. Program ini berfokus pada pembentukan karakter kepemimpinan, pengembangan kemampuan komunikasi, manajemen organisasi, serta peningkatan kemampuan dalam mengelola tim dan memahami struktur kepemimpinan di lingkungan mahasiswa Sistem Informasi UTY.</p>
+            </div>
+        </div>
+
+        <div class="project" data-category="sertifikat">
+    <div class="image-wrapper">
+        <img src="/image/akademi.jpg" alt="Sertifikat SISource Academy HMSI">
+        <div class="overlay"><i class="fas fa-eye"></i></div>
+    </div>
+    <div class="project-info">
+        <h3>SISource Academy – Peserta</h3>
+        <p>Mengikuti rangkaian pelatihan SISource Academy dengan materi “Essentials of Information System Modeling” dan “Bootstrap Essentials for Web Design Beginners”. Kegiatan ini diselenggarakan oleh HMSI UTY dan berfokus pada peningkatan kemampuan modeling sistem informasi serta dasar-dasar desain web menggunakan Bootstrap.</p>
+    </div>
+</div>
+
+            <div class="project" data-category="kerja">
+                <div class="image-wrapper">
+                    <img src="/image/power.jpg" alt="Engineering Staff">
+                    <div class="overlay"><i class="fas fa-eye"></i></div>
+                </div>
+                <div class="project-info">
+                    <h3>Staff Engineering (Power Plant)</h3>
+                    <p>Bertanggung jawab atas operasional dan maintenance kelistrikan di Sheraton Mustika Yogyakarta.</p>
+                </div>
+            </div>
+
+            <div class="project" data-category="organisasi">
+                <div class="image-wrapper">
+                    <img src="/image/sekre.png" alt="Sekretaris Seminar">
+                    <div class="overlay"><i class="fas fa-eye"></i></div>
+                </div>
+                <div class="project-info">
+                    <h3>Sekretaris Seminar Nasional</h3>
+                    <p>Mengelola administrasi, proposal pengajuan, korespondensi surat, dan Laporan Pertanggungjawaban (LPJ).</p>
+                </div>
+            </div>
+
+            <div class="project" data-category="kerja">
+                <div class="image-wrapper">
+                    <img src="/image/barista.jpg" alt="Barista Experience">
+                    <div class="overlay"><i class="fas fa-eye"></i></div>
+                </div>
+                <div class="project-info">
+                    <h3>Barista (Manual Brew)</h3>
+                    <p>Menguasai teknik penyeduhan manual dan Japanese Style Iced Coffee di KGYK Coffee.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Muhammad Vito Pratama. Precision in every detail.</p>
+    </footer>
+
+    <script>
+        /* --- 1. Mobile Menu Logic --- */
+        const menuIcon = document.getElementById('menu-icon');
+        const navbar = document.getElementById('navbar');
+        const iconElement = menuIcon.querySelector('i');
+
+        menuIcon.addEventListener('click', () => {
+            navbar.classList.toggle('active');
+            // Toggle icon antara bars dan X
+            if (navbar.classList.contains('active')) {
+                iconElement.classList.remove('fa-bars');
+                iconElement.classList.add('fa-xmark');
+            } else {
+                iconElement.classList.remove('fa-xmark');
+                iconElement.classList.add('fa-bars');
+            }
+        });
+
+        /* --- 2. Filtering Logic (Clean Vanilla JS) --- */
+        const filterButtons = document.querySelectorAll('.filter-button');
+        const projects = document.querySelectorAll('.project');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const filterValue = button.getAttribute('data-filter');
+
+                projects.forEach(project => {
+                    const category = project.getAttribute('data-category');
+                    
+                    if (filterValue === 'all' || filterValue === category) {
+                        project.style.display = 'block';
+                        // Timeout kecil untuk animasi opacity
+                        setTimeout(() => {
+                            project.style.opacity = '1';
+                            project.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        project.style.opacity = '0';
+                        project.style.transform = 'scale(0.8)';
+                        // Tunggu animasi selesai baru display none
+                        setTimeout(() => {
+                            project.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        /* --- 3. Lightbox Logic (Zoom Gambar) --- */
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const imageWrappers = document.querySelectorAll('.image-wrapper');
+
+        // Buka Lightbox saat gambar diklik
+        imageWrappers.forEach(wrapper => {
+            wrapper.addEventListener('click', () => {
+                const img = wrapper.querySelector('img');
+                lightboxImg.src = img.src; // Ambil source gambar yang diklik
+                lightbox.classList.add('active'); // Tampilkan lightbox
+            });
+        });
+
+        // Tutup Lightbox saat tombol X diklik
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        // Tutup Lightbox saat area gelap diklik
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
+
+    </script>
+</body>
+</html>
